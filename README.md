@@ -1,8 +1,4 @@
-Based on the structure script you provided, here's the final updated `README.md` tailored to your **Week 3 project: End-to-End Insurance Risk Analytics & Predictive Modeling**, including Git setup, virtual environment instructions, DVC mention, and directory structure.
 
----
-
-```markdown
 # 📊 Week 3 Project: End-to-End Insurance Risk Analytics & Predictive Modeling
 
 ## 📝 Overview
