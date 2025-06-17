@@ -80,6 +80,7 @@ Dependencies include:
 
 * Converted pipe-delimited `.txt` data into `.csv`
 * Used pandas to inspect structure (`df.info()`, `df.describe()`)
+* Collab "Notebook : https://colab.research.google.com/drive/1t07chByWhBpwyoa3n2zXJPnRXG_5k85Q#scrollTo=wmxvMbM7SuXj
 
 ### 🔍 Feature Exploration
 
