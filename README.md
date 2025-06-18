@@ -1,9 +1,3 @@
-
----
-
-### ✅ `README.md`
-
-```markdown
 # 📊 Week 3: End-to-End Insurance Risk Analytics & Predictive Modeling
 
 This project is focused on analyzing and modeling insurance risk using real-world policy and claims data. The workflow follows a complete data science lifecycle: data ingestion, exploration, statistical hypothesis testing, modeling, and experiment tracking.
@@ -168,4 +162,3 @@ dvc
 Project by [Dawit Neri](https://github.com/doffn) — powered by 💡 10 Academy.
 
 ```
-
