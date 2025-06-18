@@ -1,178 +1,164 @@
+# 📊 Week 3: End-to-End Insurance Risk Analytics & Predictive Modeling
 
-# 📊 Week 3 Project: End-to-End Insurance Risk Analytics & Predictive Modeling
-
-## 📝 Overview
-
-This project aims to build an end-to-end pipeline for analyzing insurance risk based on customer, vehicle, and claims data. The first phase (Task 1) focuses on exploratory data analysis (EDA), risk metric engineering, and identifying insights from patterns in premium and claims behavior.
+This project is focused on analyzing and modeling insurance risk using real-world policy and claims data. The workflow follows a complete data science lifecycle: data ingestion, exploration, statistical hypothesis testing, modeling, and experiment tracking.
 
 ---
 
-## 🏗️ Project Structure
+## 🚀 Project Structure
 
 ```
 
 .
-├── .vscode/                   # Editor settings (optional)
-├── .github/workflows/        # CI/CD pipelines (GitHub Actions)
-│   └── unittests.yml
-├── src/                      # Source code modules
-│   └── **init**.py
-├── notebooks/                # Jupyter notebooks
-│   └── Task1.ipynb           # Main EDA notebook
-├── scripts/                  # Helper scripts (e.g., data loaders, utilities)
-├── tests/                    # Unit tests
-│   └── **init**.py
-├── .gitignore                # Files to ignore in version control
-├── README.md                 # Project documentation
-├── requirements.txt          # Python dependencies
+├── data/                         # DVC-managed data folder
+│   ├── raw
+    │   ├── MachineLearningRating_v3.csv
+├── notebooks/                   # Jupyter notebooks per task
+│   ├── Task1.ipynb
+│   ├── Task_end.ipynb
+├── scripts/                     # Modular Python scripts
+├── src/                         # Source code package
+├── tests/                       # Unit tests
+├── .vscode/                     # Editor configuration
+├── .github/workflows/          # GitHub Actions CI setup
+├── .gitignore
+├── dvc.yaml
+├── README.md
+└── requirements.txt
 
 ````
 
 ---
 
-## ⚙️ Setup Instructions
+## 📂 Tasks Overview
 
-### 🧪 1. Clone the Repository
+### ✅ Task 1: Exploratory Data Analysis (EDA)
+- Loaded raw text data using pandas and converted to CSV.
+- Conducted univariate, bivariate, and multivariate analysis.
+- Key risk metrics:
+  - **Loss Ratio** = TotalClaims / TotalPremium
+  - **Claim Frequency** = # of policies with claims / Total policies
+  - **Claim Severity** = TotalClaims / # of policies with claims
+- Plotted:
+  - Province-level risk distributions
+  - Premium & Claims trends
+  - Outlier visualizations
 
+### ✅ Task 3: Hypothesis Testing
+Performed statistical validation on key risk factors:
+- 🔍 **H₀: No risk difference across Provinces** → Rejected (p < 0.05)
+- 🔍 **H₀: No risk difference between Zip Codes** → Rejected
+- 🔍 **H₀: No margin difference by Zip Codes** → Accepted
+- 🔍 **H₀: No gender-based risk difference** → Rejected
+
+> Statistical tests: T-tests, ANOVA, and chi-squared depending on feature type.
+
+### ✅ Task 4: Predictive Modeling
+#### 🎯 Goals
+- Predict claim **severity** (TotalClaims) → Regression
+- Predict risk-adjusted **premium** → Future work
+
+#### 🔧 Model Implemented
+- `LinearRegression` (Baseline)
+- Feature encoding & missing value imputation applied.
+- Metrics used: **RMSE**, **R²**
+
+> Further model tuning, ensemble models, and SHAP-based interpretability planned in next phase.
+
+---
+
+## 📦 Setup Instructions
+
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/doffn/week-3-End-to-End-Insurance-Risk-Analytics-Predictive-Modeling.git
-cd insurance-risk-analytics-task1
+cd week-3-End-to-End-Insurance-Risk-Analytics-Predictive-Modeling
 ````
 
-### 🐍 2. Create & Activate Virtual Environment
-
-**On macOS/Linux:**
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-**On Windows:**
+### 2. Create & Activate Virtual Environment
 
 ```bash
 python -m venv venv
-venv\Scripts\activate
+source venv/bin/activate    # or venv\Scripts\activate on Windows
 ```
 
-### 📦 3. Install Dependencies
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Dependencies include:
-
-* `pandas`, `numpy` – data handling
-* `matplotlib`, `seaborn` – visualizations
-* `nltk` – natural language preprocessing (future use)
-* `dvc` – data version control
-
 ---
 
-## 📈 Key Analysis Tasks (in `notebooks/Task1.ipynb`)
+## 📦 Data Version Control (DVC)
 
-### ✅ Data Loading & Summary
-
-* Converted pipe-delimited `.txt` data into `.csv`
-* Used pandas to inspect structure (`df.info()`, `df.describe()`)
-* Collab "Notebook : https://colab.research.google.com/drive/1t07chByWhBpwyoa3n2zXJPnRXG_5k85Q#scrollTo=wmxvMbM7SuXj
-
-### 🔍 Feature Exploration
-
-* Visualized `TotalPremium`, `TotalClaims` with histograms and boxplots
-* Evaluated missing data
-* Examined categorical features like `Province`, `Gender`, and `VehicleType`
-
-### 📊 Risk Metric Engineering
-
-* Calculated `Loss Ratio`, `Claim Frequency`, and `Claim Severity`
-
-```python
-df['LossRatio'] = df['TotalClaims'] / df['TotalPremium']
-df['LossRatio'].replace([np.inf, -np.inf], np.nan, inplace=True)
-
-claim_frequency = (df['TotalClaims'] > 0).mean()
-```
-
-### 🔁 Grouped Insights
-
-* Aggregated loss ratios by `Province`, `VehicleType`, and `Gender`
-* Temporal trends plotted by `TransactionMonth`
-
-```python
-monthly = df.groupby('TransactionMonth')[['TotalPremium', 'TotalClaims']].sum()
-monthly.plot()
-```
-
-### 🧪 Correlations & Outliers
-
-* Heatmap of numeric feature correlations
-* Used log-scale scatter plots and boxplots to examine extreme values
-
----
-
-## 🚦 CI/CD: GitHub Actions
-
-This project includes a GitHub Actions workflow to:
-
-* Install dependencies
-* Run automated unit tests via `pytest`
-
-Workflow: `.github/workflows/unittests.yml`
-
-```yaml
-- name: Install dependencies
-  run: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-- name: Run tests
-  run: |
-    pytest
-```
-
----
-
-## 🔄 Data Versioning
-
-To track data versions and workflows:
+### Initialize DVC (already done)
 
 ```bash
 dvc init
-dvc add data/MachineLearningRating_v3.csv
-git add data/MachineLearningRating_v3.csv.dvc .gitignore
-git commit -m "Track dataset with DVC"
 ```
 
----
-
-## 🚀 Next Steps
-
-* Handle missing values and normalize skewed distributions
-* Feature engineering for supervised modeling
-* Develop predictive models to classify and forecast insurance risk
-
----
-
-## 🧪 Testing
-
-All unit tests are placed under the `tests/` folder. Run:
+### Pull Raw Data
 
 ```bash
-pytest
+dvc pull
+```
+
+### Track New Data
+
+```bash
+dvc add data/raw/insurance_data.csv
+git add data/raw/insurance_data.csv.dvc .gitignore
+git commit -m "Track insurance data with DVC"
 ```
 
 ---
 
-## 👤 Author
+## 📈 Git Workflow
 
-**Dawit Neri**
-**www.doffneri.vercel.app**
+### Create Task Branch
+
+```bash
+git checkout -b task-3
+```
+
+### Commit & Push
+
+```bash
+git add .
+git commit -m "Task 3: Hypothesis testing completed"
+git push --set-upstream origin task-3
+```
 
 ---
 
-## 📜 License
+## ✅ CI/CD
 
-This project is for week 3 interim submission and research purposes only.
+GitHub Actions is configured to run unit tests on each push to `main` or pull request.
+
+```yaml
+.github/workflows/unittests.yml
+```
+
+---
+
+## 📚 Requirements
+
+```
+pandas
+numpy
+matplotlib
+seaborn
+nltk
+scikit-learn
+xgboost
+shap
+dvc
+```
+
+
+
+## 📬 Contact
+
+Project by [Dawit Neri](https://github.com/doffn) — powered by 💡 10 Academy.
 
 ```
